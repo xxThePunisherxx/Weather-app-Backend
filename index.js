@@ -6,13 +6,7 @@ const base_Url_forecast = "http://dataservice.accuweather.com/forecasts/v1/daily
 const base_Url_Current = "http://dataservice.accuweather.com/currentconditions/v1/";
 let port = process.env.PORT || 6969;
 
-// alternate api keys, to be used when limit is reached(50 calls per day on each api key. )
-// const API_KEY = "98YADjlrd46gWHjmyd4hMeVEQsiPXJc9";
-// const API_KEY = "I1jaBZ5gT5eW3J1UyA3zuYw5srDEvUGq";
-// const API_KEY = "ZDIVyJU1slw3G2xM2vx35wVAEEChQVBx";
-// const API_KEY = "tPLxGepNrDQa6tnRo59SGGOif89Guy5s";
-
-let cors = require("cors"); //allow cross-origin resource sharing
+let cors = require("cors");
 app.use(cors());
 async function citySearch(city, api_key) {
 	//function to get city code form city name and timezone of the city
@@ -67,7 +61,6 @@ async function getCurrent(code, temp, api_Key) {
 app.get("/citySearch", (req, res) => {
 	let city = req.query.city;
 	let temp = req.query.temp;
-	// FIXME:
 	let rand = Math.floor(Math.random() * 4) + 1;
 	const API_KEY_ARR = [
 		"I1jaBZ5gT5eW3J1UyA3zuYw5srDEvUGq",
@@ -75,7 +68,7 @@ app.get("/citySearch", (req, res) => {
 		"ZDIVyJU1slw3G2xM2vx35wVAEEChQVBx",
 		"tPLxGepNrDQa6tnRo59SGGOif89Guy5s",
 	];
-	let api_Key = API_KEY_ARR[rand];
+	let api_Key = API_KEY_ARR[rand]; // randomly select api  keys
 	console.log(api_Key);
 	try {
 		citySearch(city, api_Key).then((data) => {
