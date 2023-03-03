@@ -9,7 +9,7 @@ let port = process.env.PORT || 6969;
 let cors = require("cors");
 app.use(cors());
 async function citySearch(city, api_key) {
-	//function to get city code form city name and timezone of the city
+	//! ------------------------------------------------ get city code form city name and timezone of the city--------------------------------------------------
 	let url = `${base_Url_city}?apikey=${api_key}&q=${city}`;
 	console.log(url);
 	let response = await axios({
@@ -24,7 +24,7 @@ async function citySearch(city, api_key) {
 	return [key, timezone, localNameCity, localNameCountry];
 }
 async function getForecast(code, temp, api_key) {
-	//get  5 days forecast data form accuweather
+	//! -----------------------------------------------------get  5 days forecast data form accuweather ------------------------------------------------------
 	let url = `${base_Url_forecast}${code}?apikey=${api_key}&details=true&metric=${temp}`;
 	let response = await axios({
 		url: url,
@@ -35,7 +35,7 @@ async function getForecast(code, temp, api_key) {
 }
 
 async function getCurrent(code, temp, api_Key) {
-	//get current weather condition
+	//! ------------------------------------------------------ get current weather condition -----------------------------------------------------------------
 	let url = `${base_Url_Current}${code}?apikey=${api_Key}&details=true`;
 	let response = await axios({
 		url: url,
@@ -68,11 +68,11 @@ app.get("/citySearch", (req, res) => {
 		"ZDIVyJU1slw3G2xM2vx35wVAEEChQVBx",
 		"tPLxGepNrDQa6tnRo59SGGOif89Guy5s",
 	];
-	let api_Key = API_KEY_ARR[rand]; // randomly select api  keys
-	console.log(api_Key);
 	try {
+		//! ------------------------------------------------------------- randomly select api  keys -------------------------------------------------------
+		let api_Key = API_KEY_ARR[rand];
 		citySearch(city, api_Key).then((data) => {
-			console.log(data);
+			console.log(api_Key);
 			let citycode = data[0];
 			let timezoneG = data[1];
 			let localNameCity = data[2];
@@ -96,12 +96,12 @@ app.get("/citySearch", (req, res) => {
 			});
 		});
 	} catch (error) {
-		console.log(error);
+		// console.log(error);
 	}
 });
 
 app.use("/", (req, res) => {
-	res.send("homepage");
+	res.send("homepage weather");
 });
 app.get("*", (req, res) => {
 	res.sendStatus(404);
